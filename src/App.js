@@ -12,7 +12,7 @@ function App() {
     const onClickGetSentiment = async () => {
         const data = []
         try {
-            await axios.post('http://localhost:5000/gettweets', {"name": input})
+            await axios.post('https://sentiment-backend-app.herokuapp.com/gettweets', {"name": input})
                 .then(response => {
                     for(let i in response.data) {
                         data.push(response.data[i])
