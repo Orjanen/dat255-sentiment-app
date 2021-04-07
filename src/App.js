@@ -6,15 +6,13 @@ import TweetCard from "./components/TweetCard";
 
 function App() {
 
-
-    const [data, setData] = useState("")
     const [input, setInput] = useState("")
     const [tweets, setTweets] = useState([])
 
     const onClickGetSentiment = async () => {
         const data = []
         try {
-            await axios.post('https://dat255sentiment-backend.herokuapp.com/gettweets', {"name": input})
+            await axios.post('http://localhost:5000/gettweets', {"name": input})
                 .then(response => {
                     for(let i in response.data) {
                         data.push(response.data[i])
@@ -49,7 +47,6 @@ function App() {
                 onClick={() => onClickGetSentiment()}
             >Get sentiment</Button>
 
-            <Header>{data}</Header>
             <Grid columns='equal'>
                 <Grid.Row columns={4}>
                     {tweets.map(item => {
