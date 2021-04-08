@@ -3,6 +3,16 @@ import {Card, Icon, Button, Header} from 'semantic-ui-react'
 
 const TweetCard = (props) => {
 
+    const transformSentiment = (sentiment)=> {
+        if (sentiment === 1){
+            return 'Positive'
+        }else if(sentiment === 0){
+            return 'Neutral'
+        }else {
+            return 'Negative'
+        }
+    }
+
     const name = props.name
     return (
         <Card style={{marginTop:"20px"}}>
@@ -24,7 +34,7 @@ const TweetCard = (props) => {
                 </a>
             </Card.Content>
             <Card.Content extra>
-                <Header as='h5'>{`We belive the sentiment is ${props.sentiment}`}</Header>
+                <Header as='h5'>{`We belive the sentiment is ${transformSentiment(props.sentiment)}`}</Header>
                 <Button.Group>
                     <Button   color='green'> Agree</Button>
                     <Button basic negative> It's Wrong</Button>
