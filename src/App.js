@@ -1,17 +1,20 @@
 import './App.css';
 import axios from 'axios'
 import {useState} from "react";
-import {Button, Container, Grid, Header, Input} from "semantic-ui-react";
+import {Button, Container, Grid, Header, Input, Label} from "semantic-ui-react";
 import TweetCard from "./components/TweetCard";
 
 function App() {
 
     const [input, setInput] = useState("")
     const [tweets, setTweets] = useState([])
+    const [error, setError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     const onClickGetSentiment = async () => {
         const data = []
         try {
+            setIsLoading(true)
             await axios.post('https://sentiment-application-dat255.herokuapp.com/gettweets', {"name": input})
                 .then(response => {
                     for(let i in response.data) {
@@ -19,13 +22,15 @@ function App() {
                     }
                 })
             setTweets(data)
+            setIsLoading(false)
         } catch (e) {
-            throw e
+            setIsLoading(false)
+            setError("We didn't find a user with this username")
         }
     }
-
     const onChangeInput = (event) => {
         setInput(event.target.value);
+        setError("")
     }
 
     return (
@@ -35,6 +40,7 @@ function App() {
                 <Header.Subheader>
                     Enter a Twitter username
                 </Header.Subheader>
+                {error && <Label color='red'>{error}</Label>}
             </Header>
             <Input
                 placeholder='Username'
@@ -43,6 +49,7 @@ function App() {
                 }}
             ></Input>
             <Button
+                loading={isLoading}
                 primary
                 onClick={() => onClickGetSentiment()}
             >Get sentiment</Button>
